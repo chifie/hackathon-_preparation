@@ -11,6 +11,12 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="SmartStock AI")
 
 
+@app.get("/")
+def home():
+    return {
+        "message": "SmartStock AI API is running"
+    }
+
 def get_db():
     db = SessionLocal()
 
