@@ -49,3 +49,28 @@ def create_product(
 @app.get("/products")
 def get_products(db: Session = Depends(get_db)):
     return db.query(Product).all()
+@app.get("/ai/analyze/{product_id}")
+def analyze_product(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+
+    product = db.query(Product).filter(
+        Product.id == product_id
+    ).first()
+
+    if not product:
+        return {
+            "error": "Product not found"
+        }
+
+    analysis = analyze_stock(
+        product.name,
+        product.quantity,
+        product.sales_last_7_days
+    )
+
+    return {
+        "product": product.name,
+        "analysis": analysis
+    }
