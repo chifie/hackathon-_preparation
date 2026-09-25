@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from .ai_service import analyze_stock
 from sqlalchemy.orm import Session
 
 from .database import Base, engine, SessionLocal
