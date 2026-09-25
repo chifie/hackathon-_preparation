@@ -34,6 +34,11 @@ def create_product(
 
     return new_product
 
+@app.get("/products")
+def get_products(db: Session = Depends(get_db)):
+
+    return db.query(Product).all()
+
 def get_db():
     db = SessionLocal()
 
