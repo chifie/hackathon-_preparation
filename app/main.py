@@ -16,6 +16,23 @@ def home():
     return {
         "message": "SmartStock AI API is running"
     }
+@app.post("/products", response_model=ProductResponse)
+def create_product(
+    product: ProductCreate,
+    db: Session = Depends(get_db)
+):
+
+    new_product = Product(
+        name=product.name,
+        quantity=product.quantity,
+        sales_last_7_days=product.sales_last_7_days
+    )
+
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+
+    return new_product
 
 def get_db():
     db = SessionLocal()
